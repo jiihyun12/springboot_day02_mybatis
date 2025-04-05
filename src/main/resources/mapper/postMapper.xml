@@ -40,7 +40,7 @@
 
     </update>
 
-    <select id="selectAllWithOrder" resultType="PostVO">
+    <select id="selectAllWithOrder" parameterType="String" resultType="PostVO">
         SELECT ID, POST_TITLE, POST_CONTENT, POST_READ_COUNT
         FROM TBL_POST
         ORDER BY
@@ -56,5 +56,30 @@
                 DESC
             </if>
     </select>
+
+    <select id="selectAllWithParams" parameterType="Map" resultType="PostVO">
+        SELECT ID, POST_TITLE, POST_CONTENT, POST_READ_COUNT
+        FROM TBL_POST
+        ORDER BY
+        <choose>
+            <when test="order.equals('popular')">
+                POST_READ_COUNT
+            </when>
+            <otherwise>
+                ID
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="direction != null and direction.equals('asc')">
+                ASC
+            </when>
+            <otherwise>
+                DESC
+            </otherwise>
+        </choose>
+            OFFSET( #{cusor} -1) * 5 ROWS
+            FETCH NEXT 5 ROWS ONLY
+    </select>
+
 
 </mapper>

@@ -5,7 +5,9 @@ import com.app.mybatis.domain.PostVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Mapper
@@ -33,5 +35,7 @@ public interface PostMapper {
     // 상황마다 다르나 order로 처리
     public List<PostVO> selectAllWithOrder(String order);
 
+
+    public List<PostVO> selectAllWithLimit(HashMap<String, Object>params);
 
 }
